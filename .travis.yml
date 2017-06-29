@@ -8,11 +8,13 @@ dart:
 
 dart_task:
   - test: --platform vm
-  - dartfmt: -l 120
 
 cache:
   directories:
     - $HOME/.pub-cache
+
+before_script:
+  - pub run dart_style:format -l 120 -n .
 
 script:
   # - ./bin/fetch-configlet # TODO
