@@ -18,5 +18,5 @@ cache:
     - $HOME/.pub-cache
 
 script:
-  - ./bin/fetch-configlet
-  - ./bin/configlet .
+  # - ./bin/fetch-configlet # TODO
+  # - ./bin/configlet .     # TODO
