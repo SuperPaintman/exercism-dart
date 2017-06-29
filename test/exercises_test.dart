@@ -5,8 +5,11 @@ import "package:test/test.dart";
 import "package:yaml/yaml.dart";
 
 /** Helpers */
-Future runCmd(String cmd, [List<String> flags]) async {
-  var res = await Process.run(cmd, flags ?? [], runInShell: true);
+Future runCmd(List<String> cmds) async {
+  final cmd = cmds.first;
+  final other = cmds.skip(1).toList();
+
+  final res = await Process.run(cmd, other, runInShell: true);
 
   if (!res.stdout.toString().isEmpty) {
     stdout.write(res.stdout);
@@ -34,20 +37,20 @@ Running tests for: $packageName
 ================================================================================
 """);
 
-  await runCmd("cp lib/${packageName}.dart lib/${packageName}.dart.bu");
-  await runCmd("cp test/${packageName}_test.dart test/${packageName}_test.dart.bu");
+  await runCmd(["cp", "lib/${packageName}.dart", "lib/${packageName}.dart.bu"]);
+  await runCmd(["cp", "test/${packageName}_test.dart", "test/${packageName}_test.dart.bu"]);
   try {
-    for (var cmd in [
-      "cp lib/example.dart lib/${packageName}.dart", // Replace main file with example
-      "sed -i -e 's/\\bskip:\\s*true\\b/skip: false/g' test/${packageName}_test.dart", // Enable all tests
-      "pub get", // Pull dependecies
-      "pub run test" // Run tests
+    for (var cmds in [
+      ["cp", "lib/example.dart", "lib/${packageName}.dart"], // Replace main file with example
+      ["sed", "-i", "-e", "s/\\bskip:\\s*true\\b/skip: false/g", "test/${packageName}_test.dart"], // Enable all tests
+      ["pub", "get"], // Pull dependecies
+      ["pub", "run", "test"] // Run tests
     ]) {
-      await runCmd(cmd);
+      await runCmd(cmds);
     }
   } finally {
-    await runCmd("mv lib/${packageName}.dart.bu lib/${packageName}.dart");
-    await runCmd("mv test/${packageName}_test.dart.bu test/${packageName}_test.dart");
+    await runCmd(["mv", "lib/${packageName}.dart.bu", "lib/${packageName}.dart"]);
+    await runCmd(["mv", "test/${packageName}_test.dart.bu", "test/${packageName}_test.dart"]);
 
     Directory.current = current;
   }
