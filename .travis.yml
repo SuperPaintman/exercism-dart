@@ -8,10 +8,7 @@ dart:
 
 dart_task:
   - test: --platform vm
-  - test: --platform dartium
-    install_dartium: true
-  - dartfmt
-  # - dartanalyzer # TODO
+  - dartfmt: -l 120
 
 cache:
   directories:
