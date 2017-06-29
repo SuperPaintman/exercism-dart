@@ -4,13 +4,17 @@ import "dart:async";
 import "package:test/test.dart";
 import "package:yaml/yaml.dart";
 
-
 /** Helpers */
 Future runCmd(String cmd, [List<String> flags]) async {
   var res = await Process.run(cmd, flags ?? [], runInShell: true);
 
-  if (!res.stdout.toString().isEmpty) { stdout.write(res.stdout); };
-  if (!res.stderr.toString().isEmpty) { stderr.write(res.stderr); };
+  if (!res.stdout.toString().isEmpty) {
+    stdout.write(res.stdout);
+  }
+
+  if (!res.stderr.toString().isEmpty) {
+    stderr.write(res.stderr);
+  }
 
   assert(res.exitCode == 0);
 }
@@ -49,16 +53,13 @@ Running tests for: $packageName
   }
 }
 
-
 void main() {
   test("Exercises", () async {
     final exercisesRootDir = new Directory("exercises");
 
     assert(await exercisesRootDir.exists());
 
-    final exercisesDirs = exercisesRootDir
-      .listSync()
-      .where((d) => d is Directory);
+    final exercisesDirs = exercisesRootDir.listSync().where((d) => d is Directory);
 
     for (var dir in exercisesDirs) {
       await runTest(dir.path);

@@ -7,7 +7,7 @@ root="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
 # Helpers
 show_help() {
   cat <<EOF
-Usage: $me <name>
+Usage: $me <slug>
 EOF
 }
 
