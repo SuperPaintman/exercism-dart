@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Constants
+me="$(basename "$0")"
+root="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
+
+# Helpers
+show_help() {
+  cat <<EOF
+Usage: $me <name>
+EOF
+}
+
+# Templates
+example_template() {
+  local name="$1"
+
+  cat <<EOF
+void $name() {
+}
+EOF
+}
+
+main_template() {
+  local name="$1"
+
+  cat <<EOF
+void $name() {
+}
+EOF
+}
+
+test_template() {
+  local name="$1"
+
+  cat <<EOF
+import "package:test/test.dart";
+import "package:$name/$name.dart";
+
+void main() {
+  test("should work", () {
+    // TODO
+  });
+}
+EOF
+}
+
+pub_template() {
+  local name="$1"
+
+  cat <<EOF
+name: '$name'
+dev_dependencies:
+  test: '0.12.23+1'
+EOF
+}
+
+
+name="$1"
+save_name="$(echo "$name" | sed 's/[^a-z_]/_/ig' | sed -r 's/_+/_/g')"
+
+if [ -z "$name" ]; then
+  show_help
+  exit 1
+fi
+
+target_dir="$root/exercises/$name"
+
+if [[ -e "$target_dir" ]]; then
+  echo "$name already exist"
+  exit 1
+fi
+
+mkdir -p "$target_dir/"{lib,test}
+
+example_template "$save_name" > "$target_dir/lib/example.dart"
+main_template "$save_name" > "$target_dir/lib/${save_name}.dart"
+test_template "$save_name" > "$target_dir/test/${save_name}_test.dart"
+pub_template "$save_name" > "$target_dir/pubspec.yaml"
+
+(cd "$target_dir" && pub get)

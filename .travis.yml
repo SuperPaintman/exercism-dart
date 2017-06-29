@@ -1,0 +1,22 @@
+language: dart
+
+sudo: false
+
+dart:
+  - dev
+  - stable
+
+dart_task:
+  - test: --platform vm
+  - test: --platform dartium
+    install_dartium: true
+  - dartfmt
+  # - dartanalyzer # TODO
+
+cache:
+  directories:
+    - $HOME/.pub-cache
+
+script:
+  - ./bin/fetch-configlet
+  - ./bin/configlet .

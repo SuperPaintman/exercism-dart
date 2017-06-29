@@ -1,0 +1,24 @@
+{
+  "slug": "dart",
+  "language": "Dart",
+  "repository": "https://github.com/exercism/dart",
+  "active": true,
+  "exercises": [
+    {
+      "slug": "hello-world",
+      "difficulty": 1,
+      "topics": [
+        "Control-flow (conditionals)",
+        "Optional values",
+        "Strings",
+        "Text formatting"
+      ]
+    }
+  ],
+  "deprecated": [
+
+  ],
+  "foregone": [
+
+  ]
+}
