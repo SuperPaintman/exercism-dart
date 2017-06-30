@@ -61,8 +61,10 @@ import "package:${snakeCase(name)}/${snakeCase(name)}.dart";
 void main() {
   final ${camelCase(name)} = new ${pascalCase(name)}();
 
-  test("should work", () {
-    // TODO
+  group("${pascalCase(name)}", () {
+    test("should work", () {
+      // TODO
+    });
   });
 }
 """;
