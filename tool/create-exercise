@@ -99,11 +99,8 @@ Future main(args) async {
 
   // Create files
   await new File("${exerciseDir.path}/lib/example.dart").writeAsString(exampleTemplate(name));
-
   await new File("${exerciseDir.path}/lib/${filename}.dart").writeAsString(mainTemplate(name));
-
   await new File("${exerciseDir.path}/test/${filename}_test.dart").writeAsString(testTemplate(name));
-
   await new File("${exerciseDir.path}/pubspec.yaml").writeAsString(pubTemplate(name));
 
   // Install deps
